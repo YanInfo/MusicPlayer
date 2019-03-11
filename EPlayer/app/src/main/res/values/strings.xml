@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">EPlayer</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">音乐播放器</string>
+    <string name="nav_header_subtitle">哈哈哈哈哈哈</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">退出</string>
+    <string name="skipFront">s 跳过</string>
+    <string name="skipFrontFourSecond">4s 跳过</string>
+    <string name="skipFrontOneSecond">1s 跳过</string>
+    <string name="skipFrontZeroSecond">0s 跳过</string>
+    <string name="hint">提示</string>
+    <string name="ensureExit">确定退出？</string>
+    <string name="confirm">确定</string>
+    <string name="cancle">取消</string>
+    <string name="exitOk">退出了</string>
+</resources>

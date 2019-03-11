@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/list_selector"
+    android:orientation="horizontal"
+    android:weightSum="1">
+
+    <TextView
+        android:id="@+id/music_id"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="music_id"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/music_title"
+        android:layout_width="220dp"
+        android:layout_height="30dp"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:text="稻香"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/music_url"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="music_url"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/music_author"
+        android:layout_width="110dp"
+        android:layout_height="30dp"
+        android:gravity="left"
+        android:text="周杰伦"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/music_duration"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:gravity="left"
+        android:text="04:00"
+        android:textSize="20sp" />
+</LinearLayout>
