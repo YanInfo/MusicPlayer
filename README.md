@@ -6,6 +6,7 @@
 ### 3 顺序播放，随机播放，单曲循环功能
 ### 4 歌名文字跑马灯效果
 ### 5 歌曲图片在开始播放时匀速旋转
+![Image text](https://github.com/YanInfo/MusicPlayer/blob/master/EPlayer/app/picture/musicplayer.gif)
 
 ******
 ## :coffee: EPlayer
