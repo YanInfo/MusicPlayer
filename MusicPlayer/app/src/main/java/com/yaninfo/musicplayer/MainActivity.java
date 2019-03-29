@@ -49,9 +49,6 @@ public class MainActivity extends AppCompatActivity {
     private final static int PLAY_REPEAT = 2;  //单曲播放
 
     private Button playLoop;  //播放顺序
-    private Notification notification;
-    private NotificationManager mManager;
-    Bitmap LargeBitmap = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
