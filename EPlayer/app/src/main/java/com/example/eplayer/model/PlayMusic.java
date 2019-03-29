@@ -15,6 +15,7 @@ import java.util.ArrayList;
  * @Author zhangyan
  */
 public class PlayMusic {
+
     private Thread myThread = null;
     private static PlayMusic playMusic;
     private MediaPlayer mediaPlayer;
@@ -70,7 +71,7 @@ public class PlayMusic {
      */
     public void sendUiChangeMessage() {
         Message m2 = new Message();
-        m2.what = Values.UPDATEIMAGE;
+        m2.what = Values.UPDATE_IMAGE;
         // 直接发送一个what=0的空消息
         uIHandler.sendMessage(m2);
     }
@@ -91,7 +92,7 @@ public class PlayMusic {
                     }
                     if (myApplication.isPlay()) {
                         Message m = new Message();
-                        m.what = Values.UPDATESEEKBAR;
+                        m.what = Values.UPDATE_SEEKBAR;
                         try {
                             m.arg1 = mediaPlayer.getCurrentPosition();
                         } catch (IllegalStateException e) {
@@ -134,17 +135,17 @@ public class PlayMusic {
                 public void onCompletion(MediaPlayer mediaPlayer) {
                     mediaPlayer.reset();    // 重置
                     switch (myApplication.getLoopMode()) {
-                        case Values.LISTLOOP: {
+                        case Values.LIST_LOOP: {
                             int position = myApplication.getPosition() + 1;
                             myApplication.setPosition(position);
                             play(musicList.get(position).getUrl());
                             break;
                         }
-                        case Values.SINGLETUNECIRCULATION: {
+                        case Values.SINGLE_LOOP: {
                             play(musicList.get(myApplication.getPosition()).getUrl());
                             break;
                         }
-                        case Values.RANDOM: {
+                        case Values.RANDOM_LOOP: {
                             int position = (int) (size * Math.random());
                             myApplication.setPosition(position);
                             play(musicList.get(position).getUrl());

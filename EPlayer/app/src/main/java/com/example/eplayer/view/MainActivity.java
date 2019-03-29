@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity
     // 播放按钮
     private ImageView btnPlay;
     private SharedPreferences sharedPreferences;
-    private int loopMode = Values.LISTLOOP;
+    private int loopMode = Values.LIST_LOOP;
     private Intent intent = null;
     private ScannerMusic scannerMusic;
     private NotificationManager notificationManager;
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity
     private Handler uiHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            if (msg.what == Values.UPDATEIMAGE) {
+            if (msg.what == Values.UPDATE_IMAGE) {
                 if (myApplication.isPlay()) {
                     btnPlay.setImageResource(R.drawable.ic_play_btn_pause);
                     musicViews.setImageViewResource(R.id.widget_play, R.drawable.ic_play_btn_pause);
@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity
     private Handler currentSeekbarHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            if (msg.what == Values.UPDATESEEKBAR) {
+            if (msg.what == Values.UPDATE_SEEKBAR) {
                 musicSeekBar.setProgress(msg.arg1);
                 currentTime.setText(new SimpleDateFormat("mm:ss").format(msg.arg1));
             }
@@ -155,7 +155,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 intent = new Intent(MainActivity.this, MusicService.class);
-                intent.setAction(Values.NEXTMUSIC);
+                intent.setAction(Values.NEXT_MUSIC);
                 startService(intent);
             }
         });
@@ -164,23 +164,26 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 intent = new Intent(MainActivity.this, MusicService.class);
-                intent.setAction(Values.PERVIOUSMUSIC);
+                intent.setAction(Values.PERVIOUS_MUSIC);
                 startService(intent);
             }
         });
 
+        /**
+         * 播放顺序
+         */
         btnChangeLoopMode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loopMode = myApplication.getLoopMode();
-                if (loopMode == Values.LISTLOOP) {
-                    myApplication.setLoopMode(Values.SINGLETUNECIRCULATION);
+                if (loopMode == Values.LIST_LOOP) {
+                    myApplication.setLoopMode(Values.SINGLE_LOOP);
                     btnChangeLoopMode.setImageResource(R.drawable.single);
-                } else if (loopMode == Values.SINGLETUNECIRCULATION) {
-                    myApplication.setLoopMode(Values.RANDOM);
+                } else if (loopMode == Values.SINGLE_LOOP) {
+                    myApplication.setLoopMode(Values.RANDOM_LOOP);
                     btnChangeLoopMode.setImageResource(R.drawable.random);
                 } else {
-                    myApplication.setLoopMode(Values.LISTLOOP);
+                    myApplication.setLoopMode(Values.LIST_LOOP);
                     btnChangeLoopMode.setImageResource(R.drawable.nomal);
                 }
             }
@@ -203,7 +206,7 @@ public class MainActivity extends AppCompatActivity
             public void onStopTrackingTouch(SeekBar musicSeekBar) {
 
                 intent = new Intent(MainActivity.this, MusicService.class);
-                intent.setAction(Values.changeCurrent);
+                intent.setAction(Values.CHANGE_CURRENT);
                 intent.putExtra("progress", musicSeekBar.getProgress());
                 startService(intent);
 
@@ -246,7 +249,7 @@ public class MainActivity extends AppCompatActivity
         listViewMusic.setAdapter(adapter);
 
         // 初始化循环模式
-        myApplication.setLoopMode(Values.LISTLOOP);
+        myApplication.setLoopMode(Values.LIST_LOOP);
         myApplication.setMusicList(musicList);
         myApplication.setSeekbarHandler(currentSeekbarHandler);
         myApplication.setUiHandler(uiHandler);
@@ -266,7 +269,7 @@ public class MainActivity extends AppCompatActivity
         imageViewAlbum.setImageBitmap(music.getMusicBitMap());
 
         intent = new Intent(MainActivity.this, MusicService.class);
-        intent.setAction(Values.bindService);
+        intent.setAction(Values.BIND_SERVICE);
         mMyserviceconn = new MyServiceConn();
         //绑定服务
         bindService(intent, mMyserviceconn, Context.BIND_AUTO_CREATE);
@@ -298,7 +301,7 @@ public class MainActivity extends AppCompatActivity
 
         //设置通知消息的跳转  -->   Intend 和PendingIntent 的使用
         Intent intent = new Intent(this, MusicService.class);
-        intent.setAction(Values.NEXTMUSIC);
+        intent.setAction(Values.NEXT_MUSIC);
         PendingIntent pendingIntent = PendingIntent.getService(this, 1, intent, FLAG_UPDATE_CURRENT);
         musicViews.setOnClickPendingIntent(R.id.widget_next, pendingIntent);
 
@@ -308,7 +311,7 @@ public class MainActivity extends AppCompatActivity
         musicViews.setOnClickPendingIntent(R.id.widget_play, pendingIntent);
 
         intent = new Intent(this, MusicService.class);
-        intent.setAction(Values.closeNotification);
+        intent.setAction(Values.CLOSE_NOTIFICATION);
         pendingIntent = PendingIntent.getService(this, 1, intent, FLAG_UPDATE_CURRENT);
         musicViews.setOnClickPendingIntent(R.id.widget_close, pendingIntent);
 

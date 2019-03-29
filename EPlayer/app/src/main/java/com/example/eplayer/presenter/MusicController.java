@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class MusicController {
 
     private static MusicController musicController;
-    private PlayMusic playMusic;
+    private PlayMusic mPlayMusic;
     private MyApplication myApplication;
     private int position = 0;
     private int size = 0;
@@ -30,7 +30,7 @@ public class MusicController {
         myApplication = MyApplication.getInstance();
         musicList = myApplication.getMusicList();
         size = musicList.size();
-        playMusic = PlayMusic.getInstance();
+        mPlayMusic = PlayMusic.getInstance();
     }
 
     /**
@@ -49,7 +49,7 @@ public class MusicController {
      * @param currentDuration
      */
     public void changeProgress(int currentDuration) {
-        playMusic.playAtProgress(currentDuration);
+        mPlayMusic.playAtProgress(currentDuration);
     }
 
     /**
@@ -60,7 +60,7 @@ public class MusicController {
         position = (position + 1) % size;
         myApplication.setPosition(position);
         musicUrl = musicList.get(position).getUrl();
-        playMusic.play(musicUrl);
+        mPlayMusic.play(musicUrl);
     }
 
     /**
@@ -71,14 +71,14 @@ public class MusicController {
         position = (size + position - 1) % size;
         myApplication.setPosition(position);
         musicUrl = musicList.get(position).getUrl();
-        playMusic.play(musicUrl);
+        mPlayMusic.play(musicUrl);
     }
 
     /**
      * 播放暂停
      */
     public void playAndPause() {
-        playMusic.playAndPause();
+        mPlayMusic.playAndPause();
     }
 
     /**
@@ -87,7 +87,7 @@ public class MusicController {
     public void play() {
         position = myApplication.getPosition();
         musicUrl = musicList.get(position).getUrl();
-        playMusic.play(musicUrl);
+        mPlayMusic.play(musicUrl);
     }
 
     /**
@@ -95,7 +95,7 @@ public class MusicController {
      */
     public void onDestory() {
         Log.d("controller", "destroy");
-        playMusic.onDestory();
+        mPlayMusic.onDestory();
     }
 
     /**

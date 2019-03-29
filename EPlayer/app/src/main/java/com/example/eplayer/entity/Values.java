@@ -6,18 +6,18 @@ package com.example.eplayer.entity;
  */
 public class Values {
 
-    public static final int SINGLETUNECIRCULATION = 1;
-    public static final int LISTLOOP = 2;
-    public static final int RANDOM = 3;
+    public static final int SINGLE_LOOP = 1;
+    public static final int LIST_LOOP = 2;
+    public static final int RANDOM_LOOP = 3;
     public static final String PLAY = "4";
-    public static final String NEXTMUSIC = "5";
-    public static final String PERVIOUSMUSIC = "6";
+    public static final String NEXT_MUSIC = "5";
+    public static final String PERVIOUS_MUSIC = "6";
     public static final String NOMAL = "7";
-    public static final String changeCurrent = "8";
-    public static final String closeNotification = "9";
-    public static final String bindService = "10";
-    public static final int UPDATEIMAGE = 005;
-    public static final int UPDATESEEKBAR = 007;
+    public static final String CHANGE_CURRENT = "8";
+    public static final String CLOSE_NOTIFICATION = "9";
+    public static final String BIND_SERVICE = "10";
+    public static final int UPDATE_IMAGE = 005;
+    public static final int UPDATE_SEEKBAR = 007;
 
 
 }

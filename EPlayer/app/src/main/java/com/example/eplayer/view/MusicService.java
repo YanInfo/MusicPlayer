@@ -56,19 +56,19 @@ public class MusicService extends Service {
         Log.i(TAG, "--onStartCommand--");
 
         if (intent.getAction() != null) {
-            if (intent.getAction().equals(Values.NEXTMUSIC)) {
+            if (intent.getAction().equals(Values.NEXT_MUSIC)) {
                 mMusicController.nextMusic();
             }
-            if (intent.getAction().equals(Values.closeNotification)) {
+            if (intent.getAction().equals(Values.CLOSE_NOTIFICATION)) {
                 mMusicController.closeNotification();
             }
-            if (intent.getAction().equals(Values.PERVIOUSMUSIC)) {
+            if (intent.getAction().equals(Values.PERVIOUS_MUSIC)) {
                 mMusicController.previousMusic();
             }
             if (intent.getAction().equals(Values.PLAY)) {
                 mMusicController.playAndPause();
             }
-            if (intent.getAction().equals(Values.changeCurrent)) {
+            if (intent.getAction().equals(Values.CHANGE_CURRENT)) {
                 int currentDuration = intent.getIntExtra("progress", 0);
                 mMusicController.changeProgress(currentDuration);
             }
