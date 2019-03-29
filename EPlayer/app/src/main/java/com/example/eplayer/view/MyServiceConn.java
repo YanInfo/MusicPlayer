@@ -1,9 +1,8 @@
 package com.example.eplayer.view;
 
     /**
-     * 服务连接
+     * 服务连接管理类
      */
-
     import android.content.ComponentName;
     import android.content.ServiceConnection;
     import android.os.IBinder;
@@ -12,15 +11,22 @@ package com.example.eplayer.view;
 
         MusicService.MyBinder binder = null;
 
+        /**
+         * 服务连接成功
+         * @param name
+         * @param service
+         */
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            // TODO Auto-generated method stub
             binder = (MusicService.MyBinder) service;
         }
 
+        /**
+         * 服务连接失败
+         * @param name
+         */
         @Override
         public void onServiceDisconnected(ComponentName name) {
-            // TODO Auto-generated method stub
             binder = null;
         }
 

@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity
     private RemoteViews musicViews;
     private Music music;
     private ImageView imageViewAlbum;
-    MyServiceConn myserviceconn;
+    MyServiceConn mMyserviceconn;
 
 
     private Handler uiHandler = new Handler() {
@@ -131,6 +131,7 @@ public class MainActivity extends AppCompatActivity
                 myApplication.setPosition(position);
                 intent = new Intent(MainActivity.this, MusicService.class);
                 intent.setAction(Values.NOMAL);
+                //启动服务
                 startService(intent);
             }
 
@@ -209,23 +210,23 @@ public class MainActivity extends AppCompatActivity
     private void init() {
         sharedPreferences = getSharedPreferences("myinfo", Context.MODE_PRIVATE);
         int position = sharedPreferences.getInt("position", 0);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         myApplication = (MyApplication) getApplication();
 
         //初始化侧滑栏
         setSupportActionBar(toolbar);
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        listViewMusic = (ListView) findViewById(R.id.listView_Music);
-        musicSeekBar = (SeekBar) findViewById(R.id.seekBar_Music);
-        currentTime = (TextView) findViewById(R.id.textView_CurrentTime);
-        totalTime = (TextView) findViewById(R.id.textView_TotalTime);
+        listViewMusic = findViewById(R.id.listView_Music);
+        musicSeekBar = findViewById(R.id.seekBar_Music);
+        currentTime = findViewById(R.id.textView_CurrentTime);
+        totalTime = findViewById(R.id.textView_TotalTime);
         btnPlay = findViewById(R.id.imageButton_Play);
         btnChangeLoopMode = findViewById(R.id.imageButton_Loop);
         btnNextMusic = findViewById(R.id.imageButton_Next);
@@ -260,8 +261,9 @@ public class MainActivity extends AppCompatActivity
 
         intent = new Intent(MainActivity.this, MusicService.class);
         intent.setAction(Values.bindService);
-        myserviceconn = new MyServiceConn();
-        bindService(intent, myserviceconn, Context.BIND_AUTO_CREATE);
+        mMyserviceconn = new MyServiceConn();
+        //绑定服务
+        bindService(intent, mMyserviceconn, Context.BIND_AUTO_CREATE);
 
     }
 
@@ -342,9 +344,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-            /*
-             *@如果没关闭侧滑栏，关闭侧滑栏，否则退出
-             */
+            //如果没关闭侧滑栏，关闭侧滑栏，否则退出
             if (drawer.isDrawerOpen(GravityCompat.START)) {
                 drawer.closeDrawer(GravityCompat.START);
             } else {
@@ -366,7 +366,7 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (intent != null) {
-                            unbindService(myserviceconn);
+                            unbindService(mMyserviceconn);
                             stopService(intent);
                         }
                         sharedPreferences = getSharedPreferences("myinfo", Context.MODE_PRIVATE);

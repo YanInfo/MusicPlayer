@@ -8,62 +8,69 @@ import android.util.Log;
 import com.example.eplayer.entity.Values;
 import com.example.eplayer.presenter.MusicController;
 
+/**
+ * 后台服务对象
+ */
 public class MusicService extends Service {
 
-    private MusicController musicController;
+    private static final String TAG = "MusicService";
+    private MusicController mMusicController;
+    private MyBinder mMyBinder = new MyBinder();
 
     //定义音乐播放器变量
     @Override
     public void onCreate() {
-        Log.d("service", "create");
+        Log.i(TAG, "--onCreate--");
         super.onCreate();
-        musicController = MusicController.getInstance();
+        mMusicController = MusicController.getInstance();
     }
 
-    @Override
-    public IBinder onBind(Intent intent) {
-        // TODO Auto-generated method stub
-        System.out.println("--onBind--");
-        //throw new UnsupportedOperationException("Not yet implemented");
-        return null;
-    }
-
-    //解绑的时候使用的这个方法
-    @Override
-    public boolean onUnbind(Intent intent) {
-        // TODO Auto-generated method stub
-        System.out.println("--onUnbind--");
-        return super.onUnbind(intent);
-    }
-
+    /**
+     * 进程通信,继承Binder对象
+     */
     public class MyBinder extends Binder {
-        MusicService getService(){
+        MusicService getService() {
             return MusicService.this;
         }
     }
 
     @Override
+    public IBinder onBind(Intent intent) {
+        Log.i(TAG, "--onBind--");
+        return mMyBinder;
+    }
+
+    //解绑的时候使用的这个方法
+    @Override
+    public boolean onUnbind(Intent intent) {
+        Log.i(TAG, "--onUnbind--");
+        return super.onUnbind(intent);
+    }
+
+    @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
+        Log.i(TAG, "--onStartCommand--");
 
         if (intent.getAction() != null) {
             if (intent.getAction().equals(Values.NEXTMUSIC)) {
-                musicController.nextMusic();
+                mMusicController.nextMusic();
             }
             if (intent.getAction().equals(Values.closeNotification)) {
-                musicController.closeNotification();
+                mMusicController.closeNotification();
             }
             if (intent.getAction().equals(Values.PERVIOUSMUSIC)) {
-                musicController.previousMusic();
+                mMusicController.previousMusic();
             }
             if (intent.getAction().equals(Values.PLAY)) {
-                musicController.playAndPause();
+                mMusicController.playAndPause();
             }
             if (intent.getAction().equals(Values.changeCurrent)) {
                 int currentDuration = intent.getIntExtra("progress", 0);
-                musicController.changeProgress(currentDuration);
+                mMusicController.changeProgress(currentDuration);
             }
             if (intent.getAction().equals(Values.NOMAL)) {
-                musicController.play();
+                mMusicController.play();
             }
 
         }
@@ -72,9 +79,9 @@ public class MusicService extends Service {
 
     @Override
     public void onDestroy() {
-        Log.d("service", "destroy");
+        Log.i(TAG, "--destroy--");
         super.onDestroy();
-        musicController.onDestory();
+        mMusicController.onDestory();
     }
 
 }
