@@ -1,26 +1,22 @@
 package com.example.eplayer.util;
 
-import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
-import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
-
 import com.example.eplayer.R;
 import com.example.eplayer.entity.Music;
-
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 
-/*
-@
-*/public class ScannerMusic {
+/**
+ * @Author zhangyan
+ * 扫描本地音乐工具类
+ */
+public class ScannerMusic {
     private static ScannerMusic scannerMusic = null;
     private Context context;
 
@@ -36,20 +32,22 @@ import java.util.ArrayList;
     }
 
     public ArrayList<Music> ScannerMusic() {
-        ArrayList<Music> list = new ArrayList<>(); // 查询媒体数据库
-        Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null, null, null, MediaStore.Audio.Media.TITLE);    //按标题排序
+        ArrayList<Music> list = new ArrayList<>();
+        // 查询媒体数据库
+        // 按标题排序
+        Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null, null, null, MediaStore.Audio.Media.TITLE);
         // 遍历媒体数据库
-        if (cursor.moveToFirst()) {    //遍历每一行
+        if (cursor.moveToFirst()) {
             while (!cursor.isAfterLast()) {
-                //歌曲ID：MediaStore.Audio.Media._ID
+                // 歌曲ID：MediaStore.Audio.Media._ID
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID));
-                //歌曲的名称 ：MediaStore.Audio.Media.TITLE
+                // 歌曲的名称 ：MediaStore.Audio.Media.TITLE
                 String tilte = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE));
-                //歌曲的名称 ：MediaStore.Audio.Media.ARTIST
+                // 歌曲的名称 ：MediaStore.Audio.Media.ARTIST
                 String author = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST));
-                //歌曲路径 ：MediaStore.Audio.Media.DATA
+                // 歌曲路径 ：MediaStore.Audio.Media.DATA
                 String url = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA));
-                //歌曲图片 ：MediaStore.Audio.Media.
+                // 歌曲图片 ：MediaStore.Audio.Media.
 
                 Uri selectedAudio = Uri.parse(url);
                 MediaMetadataRetriever myRetriever = new MediaMetadataRetriever();
@@ -67,14 +65,14 @@ import java.util.ArrayList;
                 } else {
                     musicBitMap = BitmapFactory.decodeResource(context.getResources(), R.drawable.icon);
                 }
-                //歌曲时长 ：MediaStore.Audio.Media.totalDuration
+                // 歌曲时长 ：MediaStore.Audio.Media.totalDuration
                 int totalDuration = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION));
                 Music m = new Music(id, tilte, url, author, totalDuration, musicBitMap);
                 list.add(m);
                 cursor.moveToNext();
-            }  //end while
+            }
             cursor.close();
-        }  //end if
+        }
         return list;
     }
 }

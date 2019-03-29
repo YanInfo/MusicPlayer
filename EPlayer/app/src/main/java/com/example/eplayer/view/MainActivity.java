@@ -48,6 +48,9 @@ import java.util.ArrayList;
 
 import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
 
+/**
+ * @Author zhangyan
+ */
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -61,8 +64,10 @@ public class MainActivity extends AppCompatActivity
     private ListView listViewMusic;
     private NotificationCompat.Builder mBuilder;
     private TextView currentTime;
-    private TextView totalTime;  //显示当前音乐进度信息
-    private ImageView btnPlay;  //播放按钮
+    // 显示当前音乐进度信息
+    private TextView totalTime;
+    // 播放按钮
+    private ImageView btnPlay;
     private SharedPreferences sharedPreferences;
     private int loopMode = Values.LISTLOOP;
     private Intent intent = null;
@@ -77,7 +82,7 @@ public class MainActivity extends AppCompatActivity
     private Handler uiHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            if (msg.what == 005) {
+            if (msg.what == Values.UPDATEIMAGE) {
                 if (myApplication.isPlay()) {
                     btnPlay.setImageResource(R.drawable.ic_play_btn_pause);
                     musicViews.setImageViewResource(R.id.widget_play, R.drawable.ic_play_btn_pause);
@@ -99,7 +104,7 @@ public class MainActivity extends AppCompatActivity
                 int duration = music.getDuration();
                 musicSeekBar.setMax(duration);
                 listViewMusic.setItemChecked(position, true);
-                totalTime.setText(new SimpleDateFormat("mm:ss").format(duration));   //""不要掉了
+                totalTime.setText(new SimpleDateFormat("mm:ss").format(duration));
             }
 
         }
@@ -109,9 +114,9 @@ public class MainActivity extends AppCompatActivity
     private Handler currentSeekbarHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            if (msg.what == 007) {
+            if (msg.what == Values.UPDATESEEKBAR) {
                 musicSeekBar.setProgress(msg.arg1);
-                currentTime.setText(new SimpleDateFormat("mm:ss").format(msg.arg1));   //""不要掉了
+                currentTime.setText(new SimpleDateFormat("mm:ss").format(msg.arg1));
             }
         }
     };
@@ -233,13 +238,14 @@ public class MainActivity extends AppCompatActivity
         btnPreviousMusic = findViewById(R.id.imageButton_Previous);
         imageViewAlbum = findViewById(R.id.imageView_album);
 
-        //获取音乐列表
+        // 获取音乐列表
         scannerMusic = ScannerMusic.getInstance(MainActivity.this);
-        musicList = scannerMusic.ScannerMusic(); //使用MusicAdpater
+        musicList = scannerMusic.ScannerMusic();
+        // 配置适配器
         MusicAdapter adapter = new MusicAdapter(MainActivity.this, R.layout.adapter_musicitem, musicList);
         listViewMusic.setAdapter(adapter);
 
-        //初始化循环模式
+        // 初始化循环模式
         myApplication.setLoopMode(Values.LISTLOOP);
         myApplication.setMusicList(musicList);
         myApplication.setSeekbarHandler(currentSeekbarHandler);
@@ -336,6 +342,7 @@ public class MainActivity extends AppCompatActivity
 
     /**
      * 退出监听
+     *
      * @param keyCode
      * @param event
      * @return
@@ -348,7 +355,7 @@ public class MainActivity extends AppCompatActivity
             if (drawer.isDrawerOpen(GravityCompat.START)) {
                 drawer.closeDrawer(GravityCompat.START);
             } else {
-              exitMainactivity();
+                exitMainactivity();
             }
         }
         return false;
@@ -386,6 +393,7 @@ public class MainActivity extends AppCompatActivity
 
     /**
      * 加载菜单
+     *
      * @param menu
      * @return
      */
@@ -398,6 +406,7 @@ public class MainActivity extends AppCompatActivity
 
     /**
      * 菜单栏
+     *
      * @param item
      * @return
      */
@@ -414,6 +423,7 @@ public class MainActivity extends AppCompatActivity
 
     /**
      * 侧滑栏
+     *
      * @param item
      * @return
      */

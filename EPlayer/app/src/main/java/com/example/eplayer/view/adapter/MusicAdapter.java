@@ -12,6 +12,9 @@ import com.example.eplayer.entity.Music;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+/**
+ * @Author zhangyan
+ */
 public class MusicAdapter extends ArrayAdapter<Music> {
     private int resourceId;
 

@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
+
 import com.example.eplayer.entity.Values;
 import com.example.eplayer.presenter.MusicController;
 
 /**
+ * @Author zhangyan
  * 后台服务对象
  */
 public class MusicService extends Service {
@@ -17,7 +19,9 @@ public class MusicService extends Service {
     private MusicController mMusicController;
     private MyBinder mMyBinder = new MyBinder();
 
-    //定义音乐播放器变量
+    /**
+     * 定义音乐播放器变量
+     */
     @Override
     public void onCreate() {
         Log.i(TAG, "--onCreate--");
@@ -40,7 +44,6 @@ public class MusicService extends Service {
         return mMyBinder;
     }
 
-    //解绑的时候使用的这个方法
     @Override
     public boolean onUnbind(Intent intent) {
         Log.i(TAG, "--onUnbind--");

@@ -2,15 +2,40 @@ package com.example.eplayer.entity;
 
 import android.graphics.Bitmap;
 
-/*
-@音乐实体类
-*/
+/**
+ * 音乐实体类
+ * @Author zhangyan
+ */
 public class Music {
-    int id;//歌曲ID
-    String title;   //歌曲名称
-    String url;   //歌曲路径
-    String author;   //歌曲路径
-    int duration;  //歌曲时长
+
+    /**
+     * 歌曲ID
+     */
+    int id;
+
+    /**
+     * 歌曲名称
+     */
+    String title;
+
+    /**
+     * 歌曲路径
+     */
+    String url;
+
+    /**
+     * 歌曲路径
+     */
+    String author;
+
+    /**
+     * 歌曲时长
+     */
+    int duration;
+
+    /**
+     * 图片
+     */
     Bitmap musicBitMap;
 
     public Music(int id, String title, String url, String author, int duration) {

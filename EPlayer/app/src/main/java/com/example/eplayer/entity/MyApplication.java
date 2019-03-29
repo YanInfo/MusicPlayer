@@ -8,9 +8,11 @@ import android.app.NotificationManager;
 import android.media.MediaPlayer;
 import android.os.Handler;
 
-/*
-@
-*/public class MyApplication extends Application {
+/**
+ * @Author zhangyan
+ * MyApplication
+ */
+public class MyApplication extends Application {
 
     private ArrayList<Music> musicList = new ArrayList<Music>();
     private int position;

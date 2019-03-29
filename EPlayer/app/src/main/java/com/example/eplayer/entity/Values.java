@@ -1,8 +1,10 @@
 package com.example.eplayer.entity;
 
-/*
-@
-*/public class Values {
+/**
+ * @Author zhangyan
+ * 常量
+ */
+public class Values {
 
     public static final int SINGLETUNECIRCULATION = 1;
     public static final int LISTLOOP = 2;
@@ -14,5 +16,8 @@ package com.example.eplayer.entity;
     public static final String changeCurrent = "8";
     public static final String closeNotification = "9";
     public static final String bindService = "10";
+    public static final int UPDATEIMAGE = 005;
+    public static final int UPDATESEEKBAR = 007;
+
 
 }

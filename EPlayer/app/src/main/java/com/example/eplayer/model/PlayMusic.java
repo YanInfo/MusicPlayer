@@ -10,15 +10,17 @@ import com.example.eplayer.entity.Values;
 
 import java.util.ArrayList;
 
-/*
-@
-*/public class PlayMusic {
+/**
+ * 播放逻辑类
+ * @Author zhangyan
+ */
+public class PlayMusic {
     private Thread myThread = null;
     private static PlayMusic playMusic;
     private MediaPlayer mediaPlayer;
     private MyApplication myApplication;
     private int size;
-    private ArrayList<Music> musicList = new ArrayList<Music>(); //音乐列表
+    private ArrayList<Music> musicList;
     private Handler uIHandler;
     private Handler currentSeekbarHandler;
 
@@ -41,8 +43,6 @@ import java.util.ArrayList;
 
     public void play(String url) {
         try {
-            //mediaPlayer.stop();
-            //mediaPlayer.release();
             mediaPlayer.reset();    // 重置
             mediaPlayer.setDataSource(url);
             mediaPlayer.prepare();     // 准备
@@ -57,32 +57,41 @@ import java.util.ArrayList;
         sendSeekBarChangeMessage();
     }
 
-    //更新播放进度
+    /**
+     * 更新播放进度
+     * @param currentDuration
+     */
     public void playAtProgress(int currentDuration) {
         mediaPlayer.seekTo(currentDuration);
     }
 
-    //更新专辑图片等
+    /**
+     * 更新专辑图片等
+     */
     public void sendUiChangeMessage() {
         Message m2 = new Message();
-        m2.what = 005;   //消息标识码
-        uIHandler.sendMessage(m2);  //直接发送一个what=0的空消息
+        m2.what = Values.UPDATEIMAGE;
+        // 直接发送一个what=0的空消息
+        uIHandler.sendMessage(m2);
     }
 
-    //更新进度条
+    /**
+     * 更新进度条
+     */
     public void sendSeekBarChangeMessage() {
         myThread = new Thread() {
             @Override
             public void run() {
                 while (true) {
                     try {
-                        Thread.sleep(1000);   //每500ms执行一次mTimerTask任务
+                        // 每500ms执行一次mTimerTask任务
+                        Thread.sleep(1000);
                     } catch (InterruptedException e) {
-                        break;//结束线程
+                        break;
                     }
                     if (myApplication.isPlay()) {
                         Message m = new Message();
-                        m.what = 007;   //消息标识码
+                        m.what = Values.UPDATESEEKBAR;
                         try {
                             m.arg1 = mediaPlayer.getCurrentPosition();
                         } catch (IllegalStateException e) {
@@ -141,6 +150,8 @@ import java.util.ArrayList;
                             play(musicList.get(position).getUrl());
                             break;
                         }
+                        default:
+                            break;
                     }
                 }
             });

@@ -13,7 +13,8 @@ import android.widget.TextView;
 import com.example.eplayer.R;
 
 /**
- * ...
+ * 欢迎页面Activity
+ * @Author zhangyan
  */
 public class WelcomeActivity extends Activity {
 
@@ -31,16 +32,16 @@ public class WelcomeActivity extends Activity {
 
         skipStart = findViewById(R.id.textView);
 
-
-        if (true) {//有广告
+        // 有广告
+        if (true) {
             skipStart.setText(getResources().getString(R.string.skipFrontFourSecond));
             myCountDownTimer = new MyCountDownTimer(4000, 1000);
             myCountDownTimer.start();
-        } else {//无广告
+        // 无广告
+        } else {
             skipStart.setText(getResources().getString(R.string.skipFrontOneSecond));
             myCountDownTimer = new MyCountDownTimer(1000, 1000);
             myCountDownTimer.start();
-            // myhandler.postDelayed(runnable, 1000);
         }
 
         skipStart.setOnClickListener(new View.OnClickListener() {
