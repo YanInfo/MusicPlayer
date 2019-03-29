@@ -12,6 +12,9 @@ import android.widget.TextView;
 
 import com.example.eplayer.R;
 
+/**
+ * ...
+ */
 public class WelcomeActivity extends Activity {
 
     private TextView skipStart;
