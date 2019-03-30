@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.example.eplayer.R;
 import com.example.eplayer.entity.Music;
 
@@ -32,9 +31,10 @@ public class MusicAdapter extends ArrayAdapter<Music> {
         Music music = getItem(position);
 
         View view;
-        ViewHolder viewHolder = null;
+        ViewHolder viewHolder;
         if (convertView == null) {
             view = LayoutInflater.from(getContext()).inflate(resourceId, null);
+            viewHolder = new ViewHolder();
             viewHolder.musicTitle = view.findViewById(R.id.music_title);
             viewHolder.musicAuthor = view.findViewById(R.id.music_author);
             viewHolder.musicDuration = view.findViewById(R.id.music_duration);

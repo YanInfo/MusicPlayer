@@ -12,9 +12,11 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -62,7 +64,7 @@ public class MainActivity extends AppCompatActivity
     private ImageView btnPreviousMusic;
     private ImageButton btnChangeLoopMode;
     private ListView listViewMusic;
-    private NotificationCompat.Builder mBuilder;
+    private Notification.Builder mBuilder;
     private TextView currentTime;
     // 显示当前音乐进度信息
     private TextView totalTime;
@@ -72,34 +74,35 @@ public class MainActivity extends AppCompatActivity
     private int loopMode = Values.LIST_LOOP;
     private Intent intent = null;
     private ScannerMusic scannerMusic;
-    private NotificationManager notificationManager;
-    private RemoteViews musicViews;
+    private NotificationManager mNotificationManager;
+    private RemoteViews mMusicViews;
     private Music music;
     private ImageView imageViewAlbum;
     MyServiceConn mMyserviceconn;
 
 
     private Handler uiHandler = new Handler() {
+        @RequiresApi(api = Build.VERSION_CODES.N)
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == Values.UPDATE_IMAGE) {
                 if (myApplication.isPlay()) {
                     btnPlay.setImageResource(R.drawable.ic_play_btn_pause);
-                    musicViews.setImageViewResource(R.id.widget_play, R.drawable.ic_play_btn_pause);
+                    mMusicViews.setImageViewResource(R.id.widget_play, R.drawable.ic_play_btn_pause);
                 } else {
-                    musicViews.setImageViewResource(R.id.widget_play, R.drawable.ic_play_btn_play);
+                    mMusicViews.setImageViewResource(R.id.widget_play, R.drawable.ic_play_btn_play);
                     btnPlay.setImageResource(R.drawable.ic_play_btn_play);
                 }
 
                 int position = myApplication.getPosition();
                 music = musicList.get(position);
-                musicViews.setTextViewText(R.id.widget_title, music.getTitle());
-                musicViews.setTextViewText(R.id.widget_artist, music.getAuthor());
+                mMusicViews.setTextViewText(R.id.widget_title, music.getTitle());
+                mMusicViews.setTextViewText(R.id.widget_artist, music.getAuthor());
                 Bitmap b = music.getMusicBitMap();
-                musicViews.setImageViewBitmap(R.id.widget_album, b);
-                mBuilder.setCustomContentView(musicViews)
-                        .setCustomBigContentView(musicViews);
-                notificationManager.notify(1, mBuilder.build());
+                mMusicViews.setImageViewBitmap(R.id.widget_album, b);
+                mBuilder.setCustomContentView(mMusicViews)
+                        .setCustomBigContentView(mMusicViews);
+                mNotificationManager.notify(1, mBuilder.build());
                 imageViewAlbum.setImageBitmap(b);
                 int duration = music.getDuration();
                 musicSeekBar.setMax(duration);
@@ -122,6 +125,7 @@ public class MainActivity extends AppCompatActivity
     };
 
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -193,12 +197,10 @@ public class MainActivity extends AppCompatActivity
         musicSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar musicSeekBar, int progress, boolean fromUser) {
-                //此处无代码
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar musicSeekBar) {
-                //此处无代码
             }
 
             //设置进度
@@ -279,67 +281,70 @@ public class MainActivity extends AppCompatActivity
     /**
      * 初始化通知栏
      */
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void initNotification() {
 
-        //* 实例化通知栏构造器
-        notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        mBuilder = new NotificationCompat.Builder(this);
+        // 实例化通知栏构造器
+        mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        // 3.0只有推荐使用Notification.Builder构建
+        mBuilder = new Notification.Builder(this);
 
         NotificationChannel channel;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             channel = new NotificationChannel("10086", "音乐", NotificationManager.IMPORTANCE_LOW);
             //桌面launcher的消息角标
             channel.setShowBadge(false);
-            notificationManager.createNotificationChannel(channel);
+            mNotificationManager.createNotificationChannel(channel);
             mBuilder.setChannelId("10086");
         }
 
-        musicViews = new RemoteViews(getPackageName(), R.layout.customnotice);
-        musicViews.setTextViewText(R.id.widget_title, music.getTitle());
-        musicViews.setTextViewText(R.id.widget_artist, music.getAuthor());
-        musicViews.setImageViewBitmap(R.id.widget_album, music.getMusicBitMap());
+        mMusicViews = new RemoteViews(getPackageName(), R.layout.customnotice);
+        mMusicViews.setTextViewText(R.id.widget_title, music.getTitle());
+        mMusicViews.setTextViewText(R.id.widget_artist, music.getAuthor());
+        mMusicViews.setImageViewBitmap(R.id.widget_album, music.getMusicBitMap());
 
         //设置通知消息的跳转  -->   Intend 和PendingIntent 的使用
         Intent intent = new Intent(this, MusicService.class);
         intent.setAction(Values.NEXT_MUSIC);
         PendingIntent pendingIntent = PendingIntent.getService(this, 1, intent, FLAG_UPDATE_CURRENT);
-        musicViews.setOnClickPendingIntent(R.id.widget_next, pendingIntent);
+        mMusicViews.setOnClickPendingIntent(R.id.widget_next, pendingIntent);
 
         intent = new Intent(this, MusicService.class);
         intent.setAction(Values.PLAY);
         pendingIntent = PendingIntent.getService(this, 1, intent, FLAG_UPDATE_CURRENT);
-        musicViews.setOnClickPendingIntent(R.id.widget_play, pendingIntent);
+        mMusicViews.setOnClickPendingIntent(R.id.widget_play, pendingIntent);
 
         intent = new Intent(this, MusicService.class);
         intent.setAction(Values.CLOSE_NOTIFICATION);
         pendingIntent = PendingIntent.getService(this, 1, intent, FLAG_UPDATE_CURRENT);
-        musicViews.setOnClickPendingIntent(R.id.widget_close, pendingIntent);
+        mMusicViews.setOnClickPendingIntent(R.id.widget_close, pendingIntent);
 
         intent = new Intent(this, MainActivity.class);
         pendingIntent = PendingIntent.getActivity(this, 1, intent, FLAG_UPDATE_CURRENT);
-        musicViews.setOnClickPendingIntent(R.id.widget_album, pendingIntent);
+        mMusicViews.setOnClickPendingIntent(R.id.widget_album, pendingIntent);
 
-        //设置Builder
-        mBuilder.setCustomContentView(musicViews)
-                .setCustomBigContentView(musicViews)
-                //传入PendingIntent的实例即可
+        // 设置Builder
+        mBuilder.setCustomContentView(mMusicViews)
+                .setCustomBigContentView(mMusicViews)
+                // 传入PendingIntent的实例即可
                 .setContentIntent(pendingIntent)
-                //大图标
+                // 大图标
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
-                //小图标
-                .setSmallIcon(R.drawable.icon)
-                // .setVisibility(Notification.VISIBILITY_PUBLIC)
-                //首次进入显示的效果
-                //.setTicker("测试内容")
-                //设置提醒的模式
-                .setDefaults(Notification.DEFAULT_SOUND);
-        //最后通过nitificationManager.notify将通知发送出去即实现了将通知加入状态栏,标记为id
-        // notify中两个参数为 第一个id参数说明：id相当于notification的一一对应标志
-        //notify的第一个参数是常量的话，那么多次notify只能弹出一个通知，后续的通知会替换掉原有通知
-        // 而如果每次id不同，那么多次调用notify会弹出多个通知
-        notificationManager.notify(1, mBuilder.build());
+                // 小图标
+                .setSmallIcon(R.mipmap.ic_launcher)
+                // 设置默认响应参数，这里是默认铃声
+                .setDefaults(Notification.DEFAULT_SOUND)
+                // 常驻
+                .setAutoCancel(false)
+                .setOngoing(true);
 
-        myApplication.setNotificationManager(notificationManager);
+        // 最后通过nitificationManager.notify将通知发送出去即实现了将通知加入状态栏,标记为id
+        // notify中两个参数为 第一个id参数说明：id相当于notification的一一对应标志
+        // notify的第一个参数是常量的话，那么多次notify只能弹出一个通知，后续的通知会替换掉原有通知
+        // 而如果每次id不同，那么多次调用notify会弹出多个通知
+        mNotificationManager.notify(1, mBuilder.build());
+
+        myApplication.setNotificationManager(mNotificationManager);
 
     }
 
@@ -384,8 +389,8 @@ public class MainActivity extends AppCompatActivity
                         editor.putInt("position", myApplication.getPosition());
                         editor.commit();
                         //关闭通知
-                        if (musicViews != null) {
-                            notificationManager.cancel(1);
+                        if (mMusicViews != null) {
+                            mNotificationManager.cancel(1);
                         }
                         finish();
                     }
