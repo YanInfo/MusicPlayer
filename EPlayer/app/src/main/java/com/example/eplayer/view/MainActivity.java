@@ -17,7 +17,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -230,8 +229,6 @@ public class MainActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
 
         listViewMusic = findViewById(R.id.listView_Music);
         musicSeekBar = findViewById(R.id.seekBar_Music);
@@ -242,6 +239,10 @@ public class MainActivity extends AppCompatActivity
         btnNextMusic = findViewById(R.id.imageButton_Next);
         btnPreviousMusic = findViewById(R.id.imageButton_Previous);
         imageViewAlbum = findViewById(R.id.imageView_album);
+
+        // 侧滑栏
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
         // 获取音乐列表
         scannerMusic = ScannerMusic.getInstance(MainActivity.this);
