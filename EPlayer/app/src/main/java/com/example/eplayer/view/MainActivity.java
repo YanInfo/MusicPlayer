@@ -55,7 +55,8 @@ import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private ArrayList<Music> musicList = new ArrayList<Music>(); //音乐列表
+    private final static String TAG = "MainActivity";
+    private ArrayList<Music> musicList = new ArrayList<>();
     private MyApplication myApplication;
     private MediaPlayer mediaPlayer;
     private SeekBar musicSeekBar;
@@ -192,25 +193,31 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        //播放完毕
+        /**
+         * 播放完毕，更新进度条
+         */
         musicSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            // 拖动中数值的时候
             @Override
             public void onProgressChanged(SeekBar musicSeekBar, int progress, boolean fromUser) {
+                Log.i(TAG, "--onProgressChanged--");
             }
 
+            // 当按下的时候
             @Override
             public void onStartTrackingTouch(SeekBar musicSeekBar) {
+                Log.i(TAG, "--onStartTrackingTouch--");
             }
 
-            //设置进度
+            // 当松开的时候
             @Override
             public void onStopTrackingTouch(SeekBar musicSeekBar) {
 
+                Log.i(TAG, "--onStopTrackingTouch--");
                 intent = new Intent(MainActivity.this, MusicService.class);
                 intent.setAction(Values.CHANGE_CURRENT);
                 intent.putExtra("progress", musicSeekBar.getProgress());
                 startService(intent);
-
             }
         });
 
