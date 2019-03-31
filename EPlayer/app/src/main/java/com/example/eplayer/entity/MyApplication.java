@@ -5,6 +5,7 @@ import android.app.Application;
 import java.util.ArrayList;
 
 import android.app.NotificationManager;
+import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Handler;
 
@@ -14,7 +15,8 @@ import android.os.Handler;
  */
 public class MyApplication extends Application {
 
-    private ArrayList<Music> musicList = new ArrayList<Music>();
+    private static Context context;
+    private ArrayList<Music> musicList = new ArrayList<>();
     private int position;
     private int loopMode;
     private Handler seekbarHandler;
@@ -24,6 +26,16 @@ public class MyApplication extends Application {
     private int currentDuration = 0;
     private static MyApplication myApplication;
     private NotificationManager notificationManager;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        context = getApplicationContext();
+    }
+
+    public static Context getContext() {
+        return context;
+    }
 
     public NotificationManager getNotificationManager() {
         return notificationManager;
