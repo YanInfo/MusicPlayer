@@ -5,9 +5,9 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
-
 import com.example.eplayer.entity.Values;
 import com.example.eplayer.presenter.MusicController;
+import com.example.eplayer.util.LogUtil;
 
 /**
  * @Author zhangyan
@@ -40,20 +40,20 @@ public class MusicService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        Log.i(TAG, "--onBind--");
+        LogUtil.i(TAG, "--onBind--");
         return mMyBinder;
     }
 
     @Override
     public boolean onUnbind(Intent intent) {
-        Log.i(TAG, "--onUnbind--");
+        LogUtil.i(TAG, "--onUnbind--");
         return super.onUnbind(intent);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        Log.i(TAG, "--onStartCommand--");
+        LogUtil.i(TAG, "--onStartCommand--");
 
         if (intent.getAction() != null) {
             if (intent.getAction().equals(Values.NEXT_MUSIC)) {
@@ -82,7 +82,7 @@ public class MusicService extends Service {
 
     @Override
     public void onDestroy() {
-        Log.i(TAG, "--destroy--");
+        LogUtil.i(TAG, "--destroy--");
         super.onDestroy();
         mMusicController.onDestory();
     }

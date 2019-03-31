@@ -3,9 +3,8 @@ package com.example.eplayer.presenter;
 import com.example.eplayer.entity.Music;
 import com.example.eplayer.entity.MyApplication;
 import com.example.eplayer.model.PlayMusic;
+import com.example.eplayer.util.LogUtil;
 import android.app.NotificationManager;
-import android.util.Log;
-
 import java.util.ArrayList;
 
 /**
@@ -93,7 +92,7 @@ public class MusicController {
      * 停止
      */
     public void onDestory() {
-        Log.d("controller", "destroy");
+        LogUtil.d("controller", "destroy");
         mPlayMusic.onDestory();
     }
 

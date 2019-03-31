@@ -17,7 +17,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.RequiresApi;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -39,6 +38,7 @@ import android.widget.TextView;
 import com.example.eplayer.entity.Music;
 import com.example.eplayer.entity.MyApplication;
 import com.example.eplayer.entity.Values;
+import com.example.eplayer.util.LogUtil;
 import com.example.eplayer.util.ScannerMusic;
 import com.example.eplayer.view.adapter.MusicAdapter;
 import com.example.eplayer.R;
@@ -200,20 +200,20 @@ public class MainActivity extends AppCompatActivity
             // 拖动中数值的时候
             @Override
             public void onProgressChanged(SeekBar musicSeekBar, int progress, boolean fromUser) {
-                Log.i(TAG, "--onProgressChanged--");
+                LogUtil.i(TAG, "--onProgressChanged--");
             }
 
             // 当按下的时候
             @Override
             public void onStartTrackingTouch(SeekBar musicSeekBar) {
-                Log.i(TAG, "--onStartTrackingTouch--");
+                LogUtil.i(TAG, "--onStartTrackingTouch--");
             }
 
             // 当松开的时候
             @Override
             public void onStopTrackingTouch(SeekBar musicSeekBar) {
 
-                Log.i(TAG, "--onStopTrackingTouch--");
+                LogUtil.i(TAG, "--onStopTrackingTouch--");
                 intent = new Intent(MainActivity.this, MusicService.class);
                 intent.setAction(Values.CHANGE_CURRENT);
                 intent.putExtra("progress", musicSeekBar.getProgress());
@@ -471,9 +471,8 @@ public class MainActivity extends AppCompatActivity
     /**
      * 结束播放器
      */
-    @Override
     protected void onDestroy() {
-        Log.d("mainactivity", "destroy");
+        LogUtil.d(TAG, "destroy");
         super.onDestroy();
     }
 }
