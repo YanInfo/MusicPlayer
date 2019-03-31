@@ -34,7 +34,6 @@ import android.widget.ListView;
 import android.widget.RemoteViews;
 import android.widget.SeekBar;
 import android.widget.TextView;
-
 import com.example.eplayer.entity.Music;
 import com.example.eplayer.entity.MyApplication;
 import com.example.eplayer.entity.Values;
@@ -42,7 +41,6 @@ import com.example.eplayer.util.LogUtil;
 import com.example.eplayer.util.ScannerMusic;
 import com.example.eplayer.view.adapter.MusicAdapter;
 import com.example.eplayer.R;
-
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -70,7 +68,7 @@ public class MainActivity extends AppCompatActivity
     private TextView totalTime;
     // 播放按钮
     private ImageView btnPlay;
-    private SharedPreferences sharedPreferences;
+    private SharedPreferences mSharedPreferences;
     private int loopMode = Values.LIST_LOOP;
     private Intent intent = null;
     private ScannerMusic scannerMusic;
@@ -224,8 +222,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void init() {
-        sharedPreferences = getSharedPreferences("myinfo", Context.MODE_PRIVATE);
-        int position = sharedPreferences.getInt("position", 0);
+        mSharedPreferences = getSharedPreferences("myinfo", Context.MODE_PRIVATE);
+        int position = mSharedPreferences.getInt("position", 0);
         Toolbar toolbar = findViewById(R.id.toolbar);
         myApplication = (MyApplication) getApplication();
 
@@ -392,8 +390,8 @@ public class MainActivity extends AppCompatActivity
                             unbindService(mMyserviceconn);
                             stopService(intent);
                         }
-                        sharedPreferences = getSharedPreferences("myinfo", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        mSharedPreferences = getSharedPreferences("myinfo", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = mSharedPreferences.edit();
                         editor.putInt("position", myApplication.getPosition());
                         editor.commit();
                         //关闭通知
