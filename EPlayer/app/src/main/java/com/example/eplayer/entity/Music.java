@@ -38,14 +38,6 @@ public class Music {
      */
     Bitmap musicBitMap;
 
-    public Music(int id, String title, String url, String author, int duration) {
-        this.id = id;
-        this.title = title;
-        this.url = url;
-        this.author = author;
-        this.duration = duration;
-    }
-
     public Music() {
     }
 
