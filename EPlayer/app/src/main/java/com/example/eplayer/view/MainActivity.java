@@ -252,6 +252,7 @@ public class MainActivity extends AppCompatActivity
         // 获取音乐列表
         scannerMusic = ScannerMusic.getInstance(MainActivity.this);
         musicList = scannerMusic.ScannerMusic();
+
         // 配置适配器
         MusicAdapter adapter = new MusicAdapter(MainActivity.this, R.layout.adapter_musicitem, musicList);
         listViewMusic.setAdapter(adapter);
@@ -444,11 +445,12 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_library) {
             // 音乐库
+            Intent intent = new Intent(this, testActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_playlist) {
             // 播放列表
         } else if (id == R.id.nav_folder) {
