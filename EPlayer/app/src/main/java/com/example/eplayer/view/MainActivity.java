@@ -447,18 +447,22 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        if (id == R.id.nav_library) {
+            // 音乐库
+        } else if (id == R.id.nav_playlist) {
+            // 播放列表
+        } else if (id == R.id.nav_folder) {
+            // 文件夹
+        } else if (id == R.id.nav_playqueue) {
+            // 播放队列
+        } else if (id == R.id.nav_playing) {
+            // 正在播放
+        } else if (id == R.id.nav_settings) {
+            // 设置
+        } else if (id == R.id.nav_about) {
+            // 关于
+        } else if (id == R.id.ic_menu_share) {
+            // 分享
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -469,6 +473,7 @@ public class MainActivity extends AppCompatActivity
     /**
      * 结束播放器
      */
+    @Override
     protected void onDestroy() {
         LogUtil.d(TAG, "destroy");
         super.onDestroy();
